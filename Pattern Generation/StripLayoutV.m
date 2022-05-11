@@ -22,25 +22,44 @@ for k1 = 1:3
 end
 axis tight;
 set(gca,'visible','off');
-set(gcf,'Color','k');
+set(gcf,'Color',[.17,.17,.17]);
 daspect([1 1 1]);
 plotStrips(strips);
 
 % Random character
-keys = keys(map);
-while true
-    in = keys{randi([1 numel(keys)])};
-    disp(in);
-    [pos,strips] = moveStrips(map(in),pos,strips);
-    pause(2);
-end
+% keys = keys(map);
+% while true
+%     in = keys{randi([1 numel(keys)])};
+%     disp(in);
+%     [pos,strips] = moveStrips(map(in),pos,strips);
+%     pause(2);
+% end
 
 % User input character
 % in = input('Character:','s');
 % while ~strcmp(in,'exit')
 %     [pos,strips] = moveStrips(map(in),pos,strips);
+%     disp(pos)
 %     in = input('Character:','s');
 % end
+
+% Move individual strips
+in = input('Strip:');
+while ~strcmp(in,'exit')
+    if in == 1
+        strips{1} = circshift(strips{1},-1);
+        pos(1) = pos(1) + 1;
+    elseif in == 2
+        strips{2} = circshift(strips{2},-1);
+        pos(2) = pos(2) + 1;
+    elseif in == 3
+        strips{3} = circshift(strips{3},-1);
+        pos(3) = pos(3) + 1;
+    end
+    plotStrips(strips);
+    disp(pos)
+    in = input('Strip:');
+end
 
 function [pos,strips] = moveStrips(goal,pos,strips)
 while goal(1) ~= pos(1) || goal(2) ~= pos(2) || goal(3) ~= pos(3)
@@ -88,7 +107,7 @@ function plotGrid(x,y,c)
 xSize = 34;
 xGap = 1;
 ySize = 26;
-yGap = 0;
+yGap = 1;
 
 if c == 1
     color = 'w';

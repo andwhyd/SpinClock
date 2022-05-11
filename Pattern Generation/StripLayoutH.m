@@ -4,7 +4,7 @@
 clear
 clc
 close all;
-load('mapV.mat');
+load('mapH.mat');
 
 % Layouts:
 s1 = [0,0,0,1,1,1,0,1];
@@ -29,46 +29,48 @@ daspect([1 1 1]);
 plotStrips(strips);
 
 % Random character
-% keys = keys(map);
-% while true
-%     in = keys{randi([1 numel(keys)])};
-%     disp(in);
-%     [pos,strips] = moveStrips(map(in),pos,strips);
-%     pause(2);
-% end
+keys = keys(map);
+while true
+    in = keys{randi([1 numel(keys)])};
+    disp(in);
+    [pos,strips] = moveStrips(map(in),pos,strips);
+    pause(2);
+end
 
 % User input character
 % in = input('Character:','s');
 % while ~strcmp(in,'exit')
 %     [pos,strips] = moveStrips(map(in),pos,strips);
+%     disp(pos);
 %     in = input('Character:','s');
 % end
 
 % Move individual strips
-in = input('Strip:');
-while ~strcmp(in,'exit')
-    if in == 1
-        strips{1} = circshift(strips{1},1);
-        pos(1) = pos(1) - 1;
-    elseif in == 2
-        strips{2} = circshift(strips{2},1);
-        pos(2) = pos(2) - 1;
-    elseif in == 3
-        strips{3} = circshift(strips{3},1);
-        pos(3) = pos(3) - 1;
-    elseif in == 4
-        strips{4} = circshift(strips{4},1);
-        pos(4) = pos(4) - 1;
-    elseif in == 5
-        strips{5} = circshift(strips{5},1);
-        pos(5) = pos(5) - 1;
-    end
-    plotStrips(strips);
-    in = input('Strip:');
-end
+% in = input('Strip:');
+% while ~strcmp(in,'exit')
+%     if in == 1
+%         strips{1} = circshift(strips{1},-1);
+%         pos(1) = pos(1) + 1;
+%     elseif in == 2
+%         strips{2} = circshift(strips{2},-1);
+%         pos(2) = pos(2) + 1;
+%     elseif in == 3
+%         strips{3} = circshift(strips{3},-1);
+%         pos(3) = pos(3) + 1;
+%     elseif in == 4
+%         strips{4} = circshift(strips{4},-1);
+%         pos(4) = pos(4) + 1;
+%     elseif in == 5
+%         strips{5} = circshift(strips{5},-1);
+%         pos(5) = pos(5) + 1;
+%     end
+%     plotStrips(strips);
+%     disp(pos);
+%     in = input('Strip:');
+% end
 
 function [pos,strips] = moveStrips(goal,pos,strips)
-while goal(1) ~= pos(1) || goal(2) ~= pos(2) || goal(3) ~= pos(3)
+while goal(1) ~= pos(1) || goal(2) ~= pos(2) || goal(3) ~= pos(3) || goal(4) ~= pos(4) || goal(5) ~= pos(5)
     pause(0.1);
     % strip 1
     if pos(1) > goal(1)
@@ -93,6 +95,22 @@ while goal(1) ~= pos(1) || goal(2) ~= pos(2) || goal(3) ~= pos(3)
     elseif pos(3) < goal(3)
         strips{3} = circshift(strips{3},-1);
         pos(3) = pos(3) + 1;
+    end
+    % strip 4
+    if pos(4) > goal(4)
+        strips{4} = circshift(strips{4},1);
+        pos(4) = pos(4) - 1;
+    elseif pos(4) < goal(4)
+        strips{4} = circshift(strips{4},-1);
+        pos(4) = pos(4) + 1;
+    end
+    % strip 5
+    if pos(5) > goal(5)
+        strips{5} = circshift(strips{5},1);
+        pos(5) = pos(5) - 1;
+    elseif pos(5) < goal(5)
+        strips{5} = circshift(strips{5},-1);
+        pos(5) = pos(5) + 1;
     end
     plotStrips(strips);
 end
